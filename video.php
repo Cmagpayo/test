@@ -19,6 +19,9 @@
 <html>
 	<head>
 		<title>DBT Video Sample</title>
+		<!-- These next two lines are required to allow the browser to properly display non-Latin language names -->
+		<meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script type="text/javascript" src="/js/jQuery.jPlayer.2.4.0/jquery.jplayer.min.js"></script>
 		<link href="/js/blue.monday/jplayer.blue.monday.css" rel="stylesheet" type="text/css" />
