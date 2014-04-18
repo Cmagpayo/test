@@ -37,6 +37,7 @@
 		<ul>
 			<li><a href="/audio.php">Audio Sample</a></li>
 			<li><a href="/video.php">Video Sample</a></li>
+                        <li><a href="/video_door.php">Video Sample (DOOR International)</a></li>
 			<li><a href="/text.php">Text Sample</a></li>
 		</ul>
 
