@@ -9,10 +9,14 @@ For API documentation, please log in to your developer account in the [Digital B
 
 ## Code Samples
 - Video Retrieval and Playback (video.php)
+- Video Retrieval and Playback for DOOR/multi-part videos (video_door.php)
 - Audio Retrieval and Playback (audio.php)
 - Text Retrieval and Display (text.php)
 
 ## Changelog
+
+### 0.3
+- Added DOOR video sample
 
 ### 0.2
 - Added audio and text samples
