@@ -11,10 +11,23 @@
 	// Get the root location of video files
 	$root = $dbt->getVideoLocation('http');
 	$rootPath = 'http://' . $root[0]['server'].$root[0]['root_path'].'/';
+        
+        // Get a list of DOOR International volumes
+        // The 7th parameter of getLibraryVolume is the version code
+        // The version code for DOOR International is "SLS" (Sign Language Stories)
+        $volumes = $dbt->getLibraryVolume(null, null, null, null, null, null, 'SLS');
+        
+        // Get the DAM ID to use from the request.
+        $damId = $_REQUEST['damId'];
+        if (empty($damId))
+        {
+            // Default to: English
+            $damId = 'ASESLSS2DV';
+        }
 
 	// Get a list of ASL videos for the New Testament. 
 	// The DAM ID for New Testament ASL Video is ASESLVN2DV
-	$videos = $dbt->getVideoPath('ASESLSS2DV');
+	$videos = $dbt->getVideoPath($damId);
 ?>
 <html>
 	<head>
@@ -70,6 +83,11 @@
                                 // Scroll down to the video player, just in case it isn't within the current viewport
                                 window.scroll(0, $('#jquery_jplayer_1').position().top);
 			});
+                        
+                        $('#languageSelector').bind('change', function() {
+                            // Automatically submit the form when the language is changed
+                            this.form.submit();
+                        });
 			
 		});
 		//]]>
@@ -86,24 +104,67 @@
 			(includes/config.php).</p>
 
 		<!-- Begin Selection controls -->
+                <h3>Select a Language</h3>
+                    <form>
+                        <select id="languageSelector" name="damId">
+                            <?php
+                            // Populate the dropdown with a list of all DOOR languages available
+                            foreach ($volumes as $currentVolume)
+                            {
+                            ?>
+                            <option
+                                value="<?php echo $currentVolume['dam_id'];?>"
+                                <?php if ($currentVolume['dam_id'] == $damId) {?> selected="selected"<?php } ?>>
+                            <?php
+                            echo $currentVolume['language_name'];
+                            ?>
+                            </option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </form>
 		<h3>Select a Video</h3>
                 <table>
                     <?php 
                         foreach ($videos as $video)
                         {
+                            // Populate an array of URLs, keyed by type
+                            $videoUrls = array('Story' => $video['path']);
+                            // Intro, Topic, and More Info videos are found within related_videos
+                            foreach ($video['related_videos'] as $relatedVideo)
+                            {
+                                $videoUrls[$relatedVideo['video_type']] = $relatedVideo['path'];
+                            }
                     ?>
                     <tr>
                         <!-- Base URL for thumbnail images: http://cloud.faithcomesbyhearing.com/segment-art/700X510/ -->
                         <td><img height="100" width="140" src="http://cloud.faithcomesbyhearing.com/segment-art/700X510/<?php echo $video['thumbnail_image'];?>" /></td>
                         <td>
-                            <button class="loadVideo" videopath="<?php echo $video['path']; ?>">Story</button>
                             <?php
-                            // Intro, Topic, and More Info videos are found within related_videos
-                            foreach ($video['related_videos'] as $relatedVideo)
+                            // Show buttons in order, if they exist: Topic, Intro, Story, and More Info
+                            if (isset($videoUrls['Topic']))
                             {
                             ?>
-                            <!-- Store the video path as an attribute on the button -->
-                            <button class="loadVideo" videopath="<?php echo $relatedVideo['path'];?>"><?php echo $relatedVideo['video_type']; ?></button>
+                            <button class="loadVideo" videopath="<?php echo $videoUrls['Topic']; ?>">Topic</button>
+                            <?php
+                            }
+                            if (isset($videoUrls['Intro']))
+                            {
+                            ?>
+                            <button class="loadVideo" videopath="<?php echo $videoUrls['Intro']; ?>">Intro</button>
+                            <?php
+                            }
+                            if (isset($videoUrls['Story']))
+                            {
+                            ?>
+                            <button class="loadVideo" videopath="<?php echo $videoUrls['Story']; ?>">Story</button>
+                            <?php
+                            }
+                            if (isset($videoUrls['More Info']))
+                            {
+                            ?>
+                            <button class="loadVideo" videopath="<?php echo $videoUrls['More Info']; ?>">More Info</button>
                             <?php
                             }
                             ?>
