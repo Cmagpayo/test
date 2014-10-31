@@ -9,10 +9,9 @@
 	$dbt = new Dbt($apiKey, null, null, 'array');
 
 	// Get the root location of video files
-	$root = $dbt->getVideoLocation('http');
-	$rootPath = 'http://' . $root[0]['server'].$root[0]['root_path'].'/';
+	$rootPath = 'http://video.dbt.io/';
 
-	// Get a list of ASL videos for the New Testament. 
+	// Get a list of ASL videos for the New Testament.
 	// The DAM ID for New Testament ASL Video is ASESLVN2DV
 	$videos = $dbt->getVideoPath('ASESLVN2DV');
 ?>
@@ -35,7 +34,7 @@
 			$("#jquery_jplayer_1").jPlayer({
 				ready: function () {
 				},
-				swfPath: "/js",
+				swfPath: "/js/jQuery.jPlayer.2.4.0",
 				supplied: "m4v", /* Note that mp4 files are considered m4v by jPlayer */
 				size: {
 					width: "640px",

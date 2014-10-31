@@ -195,7 +195,7 @@
 				if ($language['language_family_name'] != $language['language_family_english']) {
 					$languageName .= ' ('.$language['language_family_english'].')';
 				}
-				?><option value="<?php echo $language['language_family_code'] ?>"><?php echo $languageName 
+				?><option value="<?php echo $language['language_family_code'] ?>"><?php echo $languageName
 				?></option><?php
 			}
 		?></select>

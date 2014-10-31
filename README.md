@@ -15,6 +15,10 @@ For API documentation, please log in to your developer account in the [Digital B
 
 ## Changelog
 
+### 0.4
+- Fixed an issue where the video path was pulling from a call depreciated in the SDK.
+- General layout cleanup
+
 ### 0.3
 - Added DOOR video sample
 
